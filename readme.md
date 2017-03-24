@@ -21,7 +21,7 @@ All end points require an `api_token` parameter, which is the same as the one yo
 
 ### Get all posts
 
-`GET /posts/all?api_token=`  
+`GET /posts/all?api_token={TOKEN_GOES_HERE}`  
 
 Returns JSON  
 
@@ -52,7 +52,7 @@ Returns JSON
 
 ### Get post
 
-`GET /posts/get/{id}?api_token=`  
+`GET /posts/get/{id}?api_token={TOKEN_GOES_HERE}`  
 
 Accepts the following parameters:
 
@@ -85,13 +85,14 @@ Returns JSON
 
 ### Insert post
 
-`PUT /posts/insert?api_token=`  
+`PUT /posts/insert`  
 
 Accepts the following parameters:  
 
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
 * `content` (string) post content (required)
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -120,11 +121,12 @@ Returns JSON
 
 ### Delete post
 
-`DELETE /posts/delete?api_token=`  
+`DELETE /posts/delete`  
 
 Accepts the following parameters:  
 
 * `id` (int) id of post you wish to delete (required)
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -148,7 +150,7 @@ Returns JSON
 
 ### Update post
 
-`PUT /posts/update?api_token=`  
+`PUT /posts/update`  
 
 Accepts the following parameters:  
 
@@ -156,6 +158,7 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post
 * `title` (string) post title
 * `content` (string) post content
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
