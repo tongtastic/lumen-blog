@@ -86,7 +86,7 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->create();
 
-    $this->json('POST', '/posts/delete', [
+    $this->json('DELETE', '/posts/delete', [
       'id' => $post->id,
       'api_token' => $this->token
     ])

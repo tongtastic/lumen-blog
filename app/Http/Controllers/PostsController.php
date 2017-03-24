@@ -221,9 +221,26 @@ class PostsController extends Controller
 
     } else {
 
-      $post->title = $request->input( 'title' );
+      if( $request->input( 'user_id' ) )
+      {
 
-      $post->content = $request->input( 'content' );
+        $post->user_id = $request->input( 'user_id' );
+
+      }
+
+      if( $request->input( 'title' ) )
+      {
+
+        $post->title = $request->input( 'title' );
+
+      }
+
+      if( $request->input( 'content' ) )
+      {
+
+        $post->content = $request->input( 'content' );
+
+      }
 
       $post->save();
 
