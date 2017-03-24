@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+
+  protected $success = false;
+
+  protected $data = [];
+
+  protected $response_code = 200;
+
   /**
    * signifies which methods require auth in class
    * @method __construct
@@ -54,16 +61,34 @@ class PostsController extends Controller
 
     $post = Post::find( $id );
 
-    return response()->json([
-      'success' => true,
-      'data' => [
+    if( !$post ) {
+
+      $this->success = false;
+
+      $this->data = [
+        'message' => 'Post not found'
+      ];
+
+      $this->response_code = 404;
+
+    } else {
+
+      $this->success = true;
+
+      $this->data = [
         'id' => $post->id,
         'title' => $post->title,
         'content' => $post->content,
         'created_at' => $post->created_at->toDateString(),
         'updated_at' => $post->updated_at->toDateString()
-      ]
-    ]);
+      ];
+
+    }
+
+    return response()->json([
+      'success' => $this->success,
+      'data' => $this->data
+    ], $this->response_code);
 
   }
 /**
