@@ -185,6 +185,10 @@ Returns JSON
 }
 ```
 
+## Unit testing
+
+Easy, just run the command `phpunit` from the root directory, composer should install this for you.
+
 ## Left to do
 
 * Get posts by user id
