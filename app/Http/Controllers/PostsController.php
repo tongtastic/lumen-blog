@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class PostsController extends Controller
 {
 
-  protected $success = false;
+  protected $success = true;
 
   protected $data = [];
 
@@ -43,10 +43,37 @@ class PostsController extends Controller
 
     $posts = Post::all();
 
-    return response()->json([
-      'success' => true,
-      'data' => $posts
-    ]);
+    if( !$posts || count( $posts ) == 0 ) {
+
+      $this->success = false;
+
+      $this->data = [
+        'message' => (string) 'No posts found'
+      ];
+
+      $this->response_code = 404;
+
+    } else {
+
+      $this->success = true;
+
+      foreach( $posts as $post )
+      {
+
+        $this->data[] = [
+          'id' => (int) $post->id,
+          'user_id' => (int) $post->user_id,
+          'title' => (string) $post->title,
+          'content' => (string) $post->content,
+          'created_at' => $post->created_at->toDateTimeString(),
+          'updated_at' => $post->updated_at->toDateTimeString()
+        ];
+
+      }
+
+    }
+
+    return $this->jsonResponse();
 
   }
 /**
@@ -66,29 +93,25 @@ class PostsController extends Controller
       $this->success = false;
 
       $this->data = [
-        'message' => 'Post not found'
+        'message' => (string) 'Post not found'
       ];
 
       $this->response_code = 404;
 
     } else {
 
-      $this->success = true;
-
       $this->data = [
-        'id' => $post->id,
-        'title' => $post->title,
-        'content' => $post->content,
-        'created_at' => $post->created_at->toDateString(),
-        'updated_at' => $post->updated_at->toDateString()
+        'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
+        'title' => (string) $post->title,
+        'content' => (string) $post->content,
+        'created_at' => $post->created_at->toDateTimeString(),
+        'updated_at' => $post->updated_at->toDateTimeString()
       ];
 
     }
 
-    return response()->json([
-      'success' => $this->success,
-      'data' => $this->data
-    ], $this->response_code);
+    return $this->jsonResponse();
 
   }
 /**
@@ -104,14 +127,27 @@ class PostsController extends Controller
 
     $post = Post::find( $id );
 
-    $post->delete();
+    if( !$post ) {
 
-    return response()->json([
-      'success' => true,
-      'data' => [
-        'id' => $post->id
-      ]
-    ]);
+      $this->success = false;
+
+      $this->data = [
+        'message' => (string) 'Post not found'
+      ];
+
+      $this->response_code = 404;
+
+    } else {
+
+      $post->delete();
+
+      $this->data = [
+        'id' => (int) $post->id
+      ];
+
+    }
+
+    return $this->jsonResponse();
 
   }
 /**
@@ -125,22 +161,38 @@ class PostsController extends Controller
 
     $post = new Post;
 
+    $post->user_id = $request->input( 'user_id' );
+
     $post->title = $request->input( 'title' );
 
     $post->content = $request->input( 'content' );
 
     $post->save();
 
-    return response()->json([
-      'success' => true,
-      'data' => [
-        'id' => $post->id,
-        'title' => $post->title,
-        'content' => $post->content,
-        'created_at' => $post->created_at->toDateString(),
-        'updated_at' => $post->updated_at->toDateString()
-      ]
-    ]);
+    if( !$post ) {
+
+      $this->success = false;
+
+      $this->data = [
+        'message' => (string) 'Post not inserted'
+      ];
+
+      $this->response_code = 500;
+
+    } else {
+
+      $this->data = [
+        'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
+        'title' => (string) $post->title,
+        'content' => (string) $post->content,
+        'created_at' => $post->created_at->toDateTimeString(),
+        'updated_at' => $post->updated_at->toDateTimeString()
+      ];
+
+    }
+
+    return $this->jsonResponse();
 
   }
 
@@ -157,22 +209,51 @@ class PostsController extends Controller
 
     $post = Post::find( $id );
 
-    $post->title = $request->input( 'title' );
+    if( !$post ) {
 
-    $post->content = $request->input( 'content' );
+      $this->success = false;
 
-    $post->save();
+      $this->data = [
+        'message' => (string) 'Post not found'
+      ];
+
+      $this->response_code = 404;
+
+    } else {
+
+      $post->title = $request->input( 'title' );
+
+      $post->content = $request->input( 'content' );
+
+      $post->save();
+
+      $this->data = [
+        'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
+        'title' => (string) $post->title,
+        'content' => (string) $post->content,
+        'created_at' => $post->created_at->toDateTimeString(),
+        'updated_at' => $post->updated_at->toDateTimeString()
+      ];
+
+    }
+
+    return $this->jsonResponse();
+
+  }
+
+  /**
+   * Returns json formatted response
+   * @method jsonResponse
+   * @return string json object of method response
+   */
+  public function jsonResponse()
+  {
 
     return response()->json([
-      'success' => true,
-      'data' => [
-        'id' => $post->id,
-        'title' => $post->title,
-        'content' => $post->content,
-        'created_at' => $post->created_at->toDateString(),
-        'updated_at' => $post->updated_at->toDateString()
-      ]
-    ]);
+      'success' => (bool) $this->success,
+      'data' => $this->data
+    ], (int) $this->response_code);
 
   }
 

@@ -11,12 +11,14 @@ class PostTest extends TestCase
 
   use DatabaseTransactions;
 /**
- * builds token
+ * builds token and sets time variable
  * @method __construct
  */
   function __construct() {
 
     $this->token = env('API_TOKEN');
+
+    $this->time = Carbon::now()->toDateTimeString();
 
   }
 /**
@@ -33,6 +35,7 @@ class PostTest extends TestCase
 
       $data[] = [
         'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
         'content' => (string) $post->content,
         'created_at' => (string) $post->created_at->toDateTimeString(),
@@ -64,11 +67,12 @@ class PostTest extends TestCase
     ->seeJsonEquals([
       'success' => true,
       'data' => [
-        'id' => $post->id,
+        'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
         'content' => (string) $post->content,
-        'created_at' => (string) $post->created_at->toDateString(),
-        'updated_at' => (string) $post->updated_at->toDateString()
+        'created_at' => (string) $post->created_at->toDateTimeString(),
+        'updated_at' => (string) $post->updated_at->toDateTimeString()
       ]
     ]);
 
@@ -86,7 +90,7 @@ class PostTest extends TestCase
       'id' => $post->id,
       'api_token' => $this->token
     ])
-    ->seeJson([
+    ->seeJsonEquals([
       'success' => true,
       'data' => [
         'id' => $post->id
@@ -103,25 +107,29 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->make();
 
-    $time = Carbon::now()->toDateString();
-
     $this->json('PUT', '/posts/insert', [
       'title' => $post->title,
       'content' => $post->content,
+      'user_id' => $post->user_id,
       'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
       'data' => [
         'id' => (int) 1,
+        'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
         'content' => (string) $post->content,
-        'created_at' => $time,
-        'updated_at' => $time
+        'created_at' => $this->time,
+        'updated_at' => $this->time
       ]
-    ])->seeInDatabase('posts', [
+    ])
+    ->seeInDatabase('posts', [
       'title' => $post->title,
-      'content' => $post->content
+      'user_id' => $post->user_id,
+      'content' => $post->content,
+      'created_at' => $this->time,
+      'updated_at' => $this->time
     ]);
 
   }
@@ -140,7 +148,7 @@ class PostTest extends TestCase
 
     $new_content = 'update to this content';
 
-    $time = Carbon::now()->toDateString();
+    $time = Carbon::now()->toDateTimeString();
 
     $this->json('PUT', '/posts/update', [
       'id' => $post->id,
@@ -152,17 +160,20 @@ class PostTest extends TestCase
       'success' => true,
       'data' => [
         'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
         'title' => (string) $new_title,
         'content' => (string) $new_content,
-        'created_at' => $update_post->created_at->toDateString(),
-        'updated_at' => $time
+        'created_at' => $update_post->created_at->toDateTimeString(),
+        'updated_at' => $this->time
       ]
-    ])->seeInDatabase('posts', [
-      'id' => $post->id,
+    ])
+    ->seeInDatabase('posts', [
+      'id' => $update_post->id,
+      'user_id' => $post->user_id,
       'title' => $new_title,
       'content' => $new_content,
-      'created_at' => $update_post->created_at,
-      'updated_at' => $update_post->updated_at
+      'created_at' => $post->created_at->toDateTimeString(),
+      'updated_at' => $this->time
     ]);
 
   }

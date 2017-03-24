@@ -15,5 +15,6 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
       'title' => $faker->text,
       'content' => $faker->paragraph,
+      'user_id' => $faker->randomNumber
     ];
 });
