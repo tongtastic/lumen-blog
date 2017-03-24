@@ -17,15 +17,15 @@ API_TOKEN=**TOKEN_GOES_HERE**
 
 ## Available End Points
 
-All end points require an `api_token` parameter, which is the same as the one you set in your `.env`  file.
+All end points require an `api_token` header, which is the same as the one you set in your `.env`  file.
 
 ### Get all posts
 
-`GET /posts/all?api_token={api_token}`  
+`GET /posts/all`  
 
-Accepts the following parameter:
+Requires the following header:
 
-* `{api_token}` (int) the api token you added to your `.env` file (required)
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -56,12 +56,15 @@ Returns JSON
 
 ### Get post
 
-`GET /posts/get/{id}?api_token={api_token}`  
+`GET /posts/get/{id}`  
 
-Accepts the following parameters:
+Accepts the following parameter:
 
 * `{id}` being the id of the post you are requesting (required).
-* `{api_token}` (int) the api token you added to your `.env` file (required)
+
+Requires the following header:
+
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -97,7 +100,10 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
 * `content` (string) post content (required)
-* `api_token` (int) the api token you added to your `.env` file (required)
+
+Requires the following header:
+
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -128,10 +134,13 @@ Returns JSON
 
 `DELETE /posts/delete`  
 
-Accepts the following parameters:  
+Accepts the following parameter:  
 
 * `id` (int) id of post you wish to delete (required)
-* `api_token` (int) the api token you added to your `.env` file (required)
+
+Requires the following header:
+
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -163,7 +172,10 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post
 * `title` (string) post title
 * `content` (string) post content
-* `api_token` (int) the api token you added to your `.env` file (required)
+
+Requires the following header:
+
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
