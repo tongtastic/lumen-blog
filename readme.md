@@ -1,6 +1,6 @@
 # Lumen micro-service for blog posts
 
-Very simple micro service with even simpler token based auth
+Very simple micro service with even simpler token based authentication.
 
 ## Setup
 
