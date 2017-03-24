@@ -180,3 +180,9 @@ Returns JSON
   }
 }
 ```
+
+## Left to do
+
+* Get posts by user id
+* Bulk update / edit / insert
+* Validation and better error responses
