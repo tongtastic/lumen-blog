@@ -1,5 +1,6 @@
 <?php
 
+use App\Post;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 

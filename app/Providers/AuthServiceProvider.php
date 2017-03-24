@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
 
-          $request_token = $request->headers->get('API_TOKEN');
+          $request_token = $request->server()['API_TOKEN'];
 
           if ( $request_token && $request_token == env('API_TOKEN') ) {
 

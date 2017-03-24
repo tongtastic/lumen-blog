@@ -21,11 +21,11 @@ All end points require an `api_token` header, which is the same as the one you s
 
 ### Get all posts
 
-`GET /posts/all`  
+`GET /posts/{api_token}/all`  
 
-Requires the following header:
+Requires the following parameter:
 
-* `api_token` (int) the api token you added to your `.env` file
+* `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -56,15 +56,12 @@ Returns JSON
 
 ### Get post
 
-`GET /posts/get/{id}`  
+`GET /posts/{api_token}/get/{id}`  
 
-Accepts the following parameter:
+Accepts the following parameters:
 
 * `{id}` being the id of the post you are requesting (required).
-
-Requires the following header:
-
-* `api_token` (int) the api token you added to your `.env` file
+* `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -93,17 +90,14 @@ Returns JSON
 
 ### Insert post
 
-`PUT /posts/insert`  
+`PUT /posts/{api_token}/insert`  
 
 Accepts the following parameters:  
 
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
 * `content` (string) post content (required)
-
-Requires the following header:
-
-* `api_token` (int) the api token you added to your `.env` file
+* `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -132,15 +126,12 @@ Returns JSON
 
 ### Delete post
 
-`DELETE /posts/delete`  
+`DELETE /posts/{api_token}/delete`  
 
 Accepts the following parameter:  
 
 * `id` (int) id of post you wish to delete (required)
-
-Requires the following header:
-
-* `api_token` (int) the api token you added to your `.env` file
+* `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -164,7 +155,7 @@ Returns JSON
 
 ### Update post
 
-`PUT /posts/update`  
+`PUT /posts/{api_token}/update`  
 
 Accepts the following parameters:  
 
@@ -172,10 +163,7 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post
 * `title` (string) post title
 * `content` (string) post content
-
-Requires the following header:
-
-* `api_token` (int) the api token you added to your `.env` file
+* `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -209,5 +197,6 @@ Easy, just run the command `phpunit` from the root directory, composer should in
 ## Left to do
 
 * Get posts by user id
-* Bulk update / edit / insert
+* Bulk update / edit / insert / get
 * Validation and better error responses
+* Better managment of tokens
