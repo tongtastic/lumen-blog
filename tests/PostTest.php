@@ -2,6 +2,7 @@
 
 use App\Post;
 use Carbon\Carbon;
+use Faker\Factory;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class PostTest extends TestCase
@@ -10,21 +11,25 @@ class PostTest extends TestCase
   protected $token;
 
   use DatabaseTransactions;
-/**
- * builds token and sets time variable
- * @method __construct
- */
+
+  /**
+   * builds token and sets time variable
+   * @method __construct
+   */
   function __construct() {
+
+    $this->faker = Factory::create();
 
     $this->token = env('API_TOKEN');
 
     $this->time = Carbon::now()->toDateTimeString();
 
   }
-/**
- * Generates 5 posts then loops through the controller response checking posts exist in returned JSON
- * @method testGetAllPosts
- */
+
+  /**
+   * Generates 5 posts then loops through the controller response checking posts exist in returned JSON
+   * @method testGetAllPosts
+   */
   public function testGetAllPosts()
   {
 
@@ -52,10 +57,11 @@ class PostTest extends TestCase
       'data' => $data
     ]);
   }
-/**
- * Generates post, then checks post exists in response from controller
- * @method testGetPost
- */
+
+  /**
+   * Generates post, then checks post exists in response from controller
+   * @method testGetPost
+   */
   public function testGetPost()
   {
 
@@ -77,10 +83,10 @@ class PostTest extends TestCase
     ]);
 
   }
-/**
- * Generates a post then deletes it, checking id in response matches request
- * @method testDeletePost
- */
+  /**
+   * Generates a post then deletes it, checking id in response matches request
+   * @method testDeletePost
+   */
   public function testDeletePost()
   {
 
@@ -98,10 +104,10 @@ class PostTest extends TestCase
     ]);
 
   }
-/**
- * Inserts a post, then checks database for post
- * @method testInsertPost
- */
+  /**
+   * Inserts a post, then checks database for post
+   * @method testInsertPost
+   */
   public function testInsertPost()
   {
 
@@ -133,27 +139,24 @@ class PostTest extends TestCase
     ]);
 
   }
-/**
- * Generates a post, then updates post, checking database values match change
- * @method testUpdatePost
- */
-  public function testUpdatePost()
+  /**
+   * Generates a post, then updates post title, checking database values match change
+   * @method testUpdatePost
+   */
+  public function testUpdatePostTitle()
   {
 
     $post = factory(Post::class)->create();
 
     $update_post = Post::find( $post->id );
 
-    $new_title = 'update to this title';
-
-    $new_content = 'update to this content';
+    $new_title = $this->faker->sentence;
 
     $time = Carbon::now()->toDateTimeString();
 
     $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'title' => $new_title,
-      'content' => $new_content,
       'api_token' => $this->token
     ])
     ->seeJsonEquals([
@@ -162,7 +165,7 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $new_title,
-        'content' => (string) $new_content,
+        'content' => (string) $post->content,
         'created_at' => $update_post->created_at->toDateTimeString(),
         'updated_at' => $this->time
       ]
@@ -171,7 +174,91 @@ class PostTest extends TestCase
       'id' => $update_post->id,
       'user_id' => $post->user_id,
       'title' => $new_title,
+      'content' => $post->content,
+      'created_at' => $post->created_at->toDateTimeString(),
+      'updated_at' => $this->time
+    ]);
+
+  }
+
+  /**
+   * Generates a post, then updates post content, checking database values match change
+   * @method testUpdatePost
+   */
+  public function testUpdatePostContent()
+  {
+
+    $post = factory(Post::class)->create();
+
+    $update_post = Post::find( $post->id );
+
+    $new_content = $this->faker->paragraph;
+
+    $time = Carbon::now()->toDateTimeString();
+
+    $this->json('PUT', '/posts/update', [
+      'id' => $post->id,
       'content' => $new_content,
+      'api_token' => $this->token
+    ])
+    ->seeJsonEquals([
+      'success' => true,
+      'data' => [
+        'id' => (int) $post->id,
+        'user_id' => (int) $post->user_id,
+        'title' => (string) $post->title,
+        'content' => (string) $new_content,
+        'created_at' => $update_post->created_at->toDateTimeString(),
+        'updated_at' => $this->time
+      ]
+    ])
+    ->seeInDatabase('posts', [
+      'id' => $update_post->id,
+      'user_id' => $post->user_id,
+      'title' => $post->title,
+      'content' => $new_content,
+      'created_at' => $post->created_at->toDateTimeString(),
+      'updated_at' => $this->time
+    ]);
+
+  }
+
+  /**
+   * Generates a post, then updates user_id, checking database values match change
+   * @method testUpdatePost
+   */
+  public function testUpdatePostUserId()
+  {
+
+    $post = factory(Post::class)->create();
+
+    $update_post = Post::find( $post->id );
+
+    $new_id = $this->faker->randomNumber;
+
+    $time = Carbon::now()->toDateTimeString();
+
+    $this->json('PUT', '/posts/update', [
+      'id' => $post->id,
+      'user_id' => $new_id,
+      'api_token' => $this->token
+    ])
+    ->seeJsonEquals([
+      'success' => true,
+      'data' => [
+        'id' => (int) $post->id,
+        'user_id' => (int) $new_id,
+        'title' => (string) $post->title,
+        'content' => (string) $post->content,
+        'created_at' => $update_post->created_at->toDateTimeString(),
+        'updated_at' => $this->time
+      ]
+    ])
+    ->seeInDatabase('posts', [
+      'id' => $update_post->id,
+      'user_id' => $new_id,
+      'title' => $post->title,
+      'content' => $post->content,
       'created_at' => $post->created_at->toDateTimeString(),
       'updated_at' => $this->time
     ]);
