@@ -1,12 +1,24 @@
 <?php
 
 use App\Post;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class PostTest extends TestCase
 {
 
+  protected $token;
+
   use DatabaseTransactions;
+/**
+ * builds token
+ * @method __construct
+ */
+  function __construct() {
+
+    $this->token = env('API_TOKEN');
+
+  }
 /**
  * Generates 5 posts then loops through the controller response checking posts exist in returned JSON
  * @method testGetAllPosts
@@ -29,7 +41,9 @@ class PostTest extends TestCase
 
     }
 
-    $this->json('GET', '/posts/all')
+    $this->json('GET', '/posts/all', [
+      'api_token' => $this->token
+    ])
     ->seeJsonEquals([
       'success' => true,
       'data' => $data
@@ -44,7 +58,9 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->create();
 
-    $this->json('GET', '/posts/get/' . $post->id)
+    $this->json('GET', '/posts/get/' . $post->id, [
+      'api_token' => $this->token
+    ])
     ->seeJsonEquals([
       'success' => true,
       'data' => [
@@ -67,7 +83,8 @@ class PostTest extends TestCase
     $post = factory(Post::class)->create();
 
     $this->json('POST', '/posts/delete', [
-      'id' => $post->id
+      'id' => $post->id,
+      'api_token' => $this->token
     ])
     ->seeJson([
       'success' => true,
@@ -84,20 +101,23 @@ class PostTest extends TestCase
   public function testInsertPost()
   {
 
-    $post = factory(Post::class)->create();
+    $post = factory(Post::class)->make();
+
+    $time = Carbon::now()->toDateString();
 
     $this->json('PUT', '/posts/insert', [
       'title' => $post->title,
-      'content' => $post->content
+      'content' => $post->content,
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
       'data' => [
-        'id' => $post->id+1,
+        'id' => (int) 1,
         'title' => (string) $post->title,
         'content' => (string) $post->content,
-        'created_at' => (string) $post->created_at->toDateString(),
-        'updated_at' => (string) $post->updated_at->toDateString()
+        'created_at' => $time,
+        'updated_at' => $time
       ]
     ])->seeInDatabase('posts', [
       'title' => $post->title,
@@ -116,16 +136,31 @@ class PostTest extends TestCase
 
     $update_post = Post::find( $post->id );
 
-    $update_post->title = 'update to this title';
+    $new_title = 'update to this title';
 
-    $update_post->content = 'update to this content';
+    $new_content = 'update to this content';
 
-    $update_post->save();
+    $time = Carbon::now()->toDateString();
 
-    $this->seeInDatabase('posts', [
+    $this->json('PUT', '/posts/update', [
       'id' => $post->id,
-      'title' => $update_post->title,
-      'content' => $update_post->content,
+      'title' => $new_title,
+      'content' => $new_content,
+      'api_token' => $this->token
+    ])
+    ->seeJsonEquals([
+      'success' => true,
+      'data' => [
+        'id' => (int) $post->id,
+        'title' => (string) $new_title,
+        'content' => (string) $new_content,
+        'created_at' => $update_post->created_at->toDateString(),
+        'updated_at' => $time
+      ]
+    ])->seeInDatabase('posts', [
+      'id' => $post->id,
+      'title' => $new_title,
+      'content' => $new_content,
       'created_at' => $update_post->created_at,
       'updated_at' => $update_post->updated_at
     ]);

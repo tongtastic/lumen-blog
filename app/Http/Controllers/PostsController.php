@@ -7,6 +7,25 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+  /**
+   * signifies which methods require auth in class
+   * @method __construct
+   */
+  public function __construct()
+  {
+
+    $this->middleware('auth', [
+      'only' => [
+        'getAllPosts',
+        'getPost',
+        'deletePost',
+        'insertPost',
+        'updatePost'
+      ]
+    ]);
+
+  }
+
 /**
  * Return all posts from database
  * @method getAllPosts
@@ -79,15 +98,43 @@ class PostsController extends Controller
   public function insertPost( Request $request )
   {
 
-    $title = $request->input( 'title' );
-
-    $content = $request->input( 'content' );
-
     $post = new Post;
 
-    $post->title = $title;
+    $post->title = $request->input( 'title' );
 
-    $post->content = $content;
+    $post->content = $request->input( 'content' );
+
+    $post->save();
+
+    return response()->json([
+      'success' => true,
+      'data' => [
+        'id' => $post->id,
+        'title' => $post->title,
+        'content' => $post->content,
+        'created_at' => $post->created_at->toDateString(),
+        'updated_at' => $post->updated_at->toDateString()
+      ]
+    ]);
+
+  }
+
+  /**
+   * [updatePost description]
+   * @method updatePost
+   * @param  Request $request [description]
+   * @return {[type] [description]
+   */
+  public function updatePost( Request $request )
+  {
+
+    $id = $request->input( 'id' );
+
+    $post = Post::find( $id );
+
+    $post->title = $request->input( 'title' );
+
+    $post->content = $request->input( 'content' );
 
     $post->save();
 
