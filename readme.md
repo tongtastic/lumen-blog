@@ -40,7 +40,7 @@ Returns JSON
   ]
 }
 
-// Invalid response 404
+// Invalid response {response code}
 {
   'success': false,
   'data': {
@@ -52,6 +52,8 @@ Returns JSON
 ### Get post
 
 `GET /posts/get/{id}?api_token=`  
+
+Accepts the following parameters:
 
 `{id}` being the id of the post you are requesting (required).
 
@@ -71,7 +73,7 @@ Returns JSON
   }
 }
 
-// Invalid response 404
+// Invalid response {response code}
 {
   'success': false,
   'data': {
@@ -84,7 +86,7 @@ Returns JSON
 
 `PUT /posts/insert?api_token=`  
 
-Requires following parameters:  
+Accepts the following parameters:  
 
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
@@ -106,7 +108,7 @@ Returns JSON
   }
 }
 
-// Invalid response 500
+// Invalid response {response code}
 {
   'success': false,
   'data': {
@@ -119,7 +121,7 @@ Returns JSON
 
 `DELETE /posts/delete?api_token=`  
 
-Requires following parameters:  
+Accepts the following parameters:  
 
 * `id` (int) id of post you wish to delete (required)
 
@@ -134,7 +136,7 @@ Returns JSON
   }
 }
 
-// Invalid response 404
+// Invalid response {response code}
 {
   'success': false,
   'data': {
@@ -147,7 +149,7 @@ Returns JSON
 
 `PUT /posts/update?api_token=`  
 
-Requires following parameters:  
+Accepts the following parameters:  
 
 * `id` (int) id of post to update (required)
 * `user_id` (int) id of user that owns post
@@ -170,7 +172,7 @@ Returns JSON
   }
 }
 
-// Invalid response 404
+// Invalid response {response code}
 {
   'success': false,
   'data': {
