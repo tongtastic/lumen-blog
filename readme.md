@@ -1,4 +1,4 @@
-# Lumen micro-service for creating posts
+# Lumen micro-service for blog posts
 
 Very simple micro service with even simpler token based auth
 
