@@ -21,7 +21,11 @@ All end points require an `api_token` parameter, which is the same as the one yo
 
 ### Get all posts
 
-`GET /posts/all?api_token={TOKEN_GOES_HERE}`  
+`GET /posts/all?api_token={api_token}`  
+
+Accepts the following parameter:
+
+* `{api_token}` (int) the api token you added to your `.env` file (required)
 
 Returns JSON  
 
@@ -52,11 +56,12 @@ Returns JSON
 
 ### Get post
 
-`GET /posts/get/{id}?api_token={TOKEN_GOES_HERE}`  
+`GET /posts/get/{id}?api_token={api_token}`  
 
 Accepts the following parameters:
 
-`{id}` being the id of the post you are requesting (required).
+* `{id}` being the id of the post you are requesting (required).
+* `{api_token}` (int) the api token you added to your `.env` file (required)
 
 Returns JSON  
 
@@ -92,7 +97,7 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
 * `content` (string) post content (required)
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file (required)
 
 Returns JSON  
 
@@ -126,7 +131,7 @@ Returns JSON
 Accepts the following parameters:  
 
 * `id` (int) id of post you wish to delete (required)
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file (required)
 
 Returns JSON  
 
@@ -158,7 +163,7 @@ Accepts the following parameters:
 * `user_id` (int) id of user that owns post
 * `title` (string) post title
 * `content` (string) post content
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file (required)
 
 Returns JSON  
 
