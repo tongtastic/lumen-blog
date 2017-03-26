@@ -25,7 +25,7 @@ All end points require an `api_token` header, which is the same as the one you s
 
 Requires the following header:
 
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -64,7 +64,7 @@ Accepts the following parameters:
 
 Accepts the following header:
 
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -103,7 +103,7 @@ Accepts the following parameters:
 
 Accepts the following header:
 
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -140,7 +140,7 @@ Accepts the following parameter:
 
 Accepts the following header:
 
-* `api_token` (int) the api token you added to your `.env` file
+* `api_token` the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -175,7 +175,7 @@ Accepts the following parameters:
 
 Accepts the following header:  
 
-* `{api_token}` (int) the api token you added to your `.env` file
+* `{api_token}` the api token you added to your `.env` file
 
 Returns JSON  
 
