@@ -21,11 +21,11 @@ All end points require an `api_token` header, which is the same as the one you s
 
 ### Get all posts
 
-`GET /posts/{api_token}/all`  
+`GET /posts/all`  
 
 Requires the following header:
 
-* `{api_token}` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -56,7 +56,7 @@ Returns JSON
 
 ### Get post
 
-`GET /posts/{api_token}/get/{id}`  
+`GET /posts/get/{id}`  
 
 Accepts the following parameters:
 
@@ -64,7 +64,7 @@ Accepts the following parameters:
 
 Accepts the following header:
 
-* `{api_token}` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -103,7 +103,7 @@ Accepts the following parameters:
 
 Accepts the following header:
 
-* `{api_token}` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
@@ -140,7 +140,7 @@ Accepts the following parameter:
 
 Accepts the following header:
 
-* `{api_token}` (int) the api token you added to your `.env` file
+* `api_token` (int) the api token you added to your `.env` file
 
 Returns JSON  
 
