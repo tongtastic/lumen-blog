@@ -49,7 +49,9 @@ class PostTest extends TestCase
 
     }
 
-    $this->json('GET', '/posts/' . $this->token . '/all')
+    $this->json('GET', '/posts/all', [],  [
+      'api_token' => $this->token
+    ])
     ->seeJsonEquals([
       'success' => true,
       'data' => $data
@@ -66,7 +68,9 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->create();
 
-    $this->json('GET', '/posts/' . $this->token . '/get/' . $post->id)
+    $this->json('GET', '/posts/get/' . $post->id, [], [
+      'api_token' => $this->token
+    ])
     ->seeJsonEquals([
       'success' => true,
       'data' => [
@@ -89,8 +93,10 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->create();
 
-    $this->json('DELETE', '/posts/' . $this->token . '/delete', [
+    $this->json('DELETE', '/posts/delete', [
       'id' => $post->id
+    ], [
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
@@ -109,10 +115,12 @@ class PostTest extends TestCase
 
     $post = factory(Post::class)->make();
 
-    $this->json('PUT', '/posts/' . $this->token . '/insert', [
+    $this->json('PUT', '/posts/insert', [
       'title' => $post->title,
       'content' => $post->content,
       'user_id' => $post->user_id
+    ], [
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
@@ -149,9 +157,11 @@ class PostTest extends TestCase
 
     $time = Carbon::now()->toDateTimeString();
 
-    $this->json('PUT', '/posts/' . $this->token . '/update', [
+    $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'title' => $new_title
+    ], [
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
@@ -190,9 +200,11 @@ class PostTest extends TestCase
 
     $time = Carbon::now()->toDateTimeString();
 
-    $this->json('PUT', '/posts/' . $this->token . '/update', [
+    $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'content' => $new_content
+    ], [
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,
@@ -231,9 +243,11 @@ class PostTest extends TestCase
 
     $time = Carbon::now()->toDateTimeString();
 
-    $this->json('PUT', '/posts/' . $this->token . '/update', [
+    $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'user_id' => $new_id
+    ], [
+      'api_token' => $this->token
     ])
     ->seeJsonEquals([
       'success' => true,

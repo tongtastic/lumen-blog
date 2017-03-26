@@ -23,7 +23,7 @@ All end points require an `api_token` header, which is the same as the one you s
 
 `GET /posts/{api_token}/all`  
 
-Requires the following parameter:
+Requires the following header:
 
 * `{api_token}` (int) the api token you added to your `.env` file
 
@@ -60,7 +60,10 @@ Returns JSON
 
 Accepts the following parameters:
 
-* `{id}` being the id of the post you are requesting (required).
+* `{id}` being the id of the post you are requesting (required).  
+
+Accepts the following header:
+
 * `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
@@ -96,7 +99,10 @@ Accepts the following parameters:
 
 * `user_id` (int) id of user that owns post (required)
 * `title` (string) post title (required)
-* `content` (string) post content (required)
+* `content` (string) post content (required)  
+
+Accepts the following header:
+
 * `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
@@ -130,7 +136,10 @@ Returns JSON
 
 Accepts the following parameter:  
 
-* `id` (int) id of post you wish to delete (required)
+* `id` (int) id of post you wish to delete (required)  
+
+Accepts the following header:
+
 * `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
@@ -162,7 +171,10 @@ Accepts the following parameters:
 * `id` (int) id of post to update (required)
 * `user_id` (int) id of user that owns post
 * `title` (string) post title
-* `content` (string) post content
+* `content` (string) post content  
+
+Accepts the following header:  
+
 * `{api_token}` (int) the api token you added to your `.env` file
 
 Returns JSON  
