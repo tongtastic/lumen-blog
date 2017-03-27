@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Category extends Model
 {
 
     /**
@@ -14,13 +14,14 @@ class Post extends Model
      */
     protected $fillable = [
         'title',
-        'content',
+        'description',
+        'slug'
     ];
 
-    public function category()
+    public function post()
     {
 
-      return $this->belongsToMany('app\Category');
+      return $this->belongsToMany('app\Post');
 
     }
 

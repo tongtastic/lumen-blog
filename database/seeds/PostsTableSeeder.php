@@ -1,11 +1,10 @@
 <?php
 
-use App\Category;
 use App\Post;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class DatabaseSeeder extends Seeder
+class PostsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-      $this->call(PostsTableSeeder::class);
-
-      $this->call(CategoriesTableSeeder::class);
+      factory(Post::class, 50)->create();
 
     }
 }

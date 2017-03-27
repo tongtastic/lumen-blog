@@ -1,7 +1,6 @@
 <?php
 
 use App\Category;
-use App\Post;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-      $this->call(PostsTableSeeder::class);
-
-      $this->call(CategoriesTableSeeder::class);
+      factory(Category::class, 50)->create();
 
     }
 }

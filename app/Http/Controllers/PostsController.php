@@ -73,7 +73,7 @@ class PostsController extends Controller
 
     }
 
-    return $this->jsonResponse();
+    return parent::jsonResponse( $this );
 
   }
 /**
@@ -111,7 +111,7 @@ class PostsController extends Controller
 
     }
 
-    return $this->jsonResponse();
+    return parent::jsonResponse( $this );
 
   }
 /**
@@ -147,7 +147,7 @@ class PostsController extends Controller
 
     }
 
-    return $this->jsonResponse();
+    return parent::jsonResponse( $this );
 
   }
 /**
@@ -192,7 +192,7 @@ class PostsController extends Controller
 
     }
 
-    return $this->jsonResponse();
+    return parent::jsonResponse( $this );
 
   }
 
@@ -255,22 +255,7 @@ class PostsController extends Controller
 
     }
 
-    return $this->jsonResponse();
-
-  }
-
-  /**
-   * Returns json formatted response
-   * @method jsonResponse
-   * @return string json object of method response
-   */
-  public function jsonResponse()
-  {
-
-    return response()->json([
-      'success' => (bool) $this->success,
-      'data' => $this->data
-    ], (int) $this->response_code);
+    return parent::jsonResponse( $this );
 
   }
 

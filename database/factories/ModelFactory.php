@@ -18,3 +18,11 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
       'user_id' => $faker->randomNumber
     ];
 });
+
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+    return [
+      'title' => $faker->word,
+      'description' => $faker->paragraph,
+      'slug' => $faker->word
+    ];
+});
