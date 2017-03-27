@@ -13,14 +13,18 @@ class CreateCategoryPostTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_post', function (Blueprint $table) {
-          $table->integer('post_id');
-          $table->integer('category_id');
-          $table->unique([
-            'post_id',
-            'category_id'
-          ]);
-        });
+
+      Schema::create('category_post', function (Blueprint $table) {
+
+        $table->integer('post_id');
+        $table->integer('category_id');
+        $table->unique([
+          'post_id',
+          'category_id'
+        ]);
+        
+      });
+
     }
 
     /**
@@ -30,6 +34,8 @@ class CreateCategoryPostTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_post');
+
+      Schema::dropIfExists('category_post');
+
     }
 }

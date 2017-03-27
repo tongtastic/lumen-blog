@@ -64,9 +64,7 @@ class PostsController extends Controller
           'id' => (int) $post->id,
           'user_id' => (int) $post->user_id,
           'title' => (string) $post->title,
-          'content' => (string) $post->content,
-          'created_at' => $post->created_at->toDateTimeString(),
-          'updated_at' => $post->updated_at->toDateTimeString()
+          'content' => (string) $post->content
         ];
 
       }
@@ -76,13 +74,13 @@ class PostsController extends Controller
     return parent::jsonResponse( $this );
 
   }
-/**
- * Return a post by ID
- * @method getPost
- * @param  Request $request Response class
- * @param  int $id id of required post
- * @return string JSON containg the post data
- */
+  /**
+   * Return a post by ID
+   * @method getPost
+   * @param  Request $request Response class
+   * @param  int $id id of required post
+   * @return string JSON containg the post data
+   */
   public function getPost( Request $request, $id )
   {
 
@@ -104,9 +102,7 @@ class PostsController extends Controller
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => $post->created_at->toDateTimeString(),
-        'updated_at' => $post->updated_at->toDateTimeString()
+        'content' => (string) $post->content
       ];
 
     }
@@ -114,6 +110,7 @@ class PostsController extends Controller
     return parent::jsonResponse( $this );
 
   }
+
 /**
  * Deletes a post
  * @method deletePost
@@ -185,9 +182,7 @@ class PostsController extends Controller
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => $post->created_at->toDateTimeString(),
-        'updated_at' => $post->updated_at->toDateTimeString()
+        'content' => (string) $post->content
       ];
 
     }
@@ -248,10 +243,10 @@ class PostsController extends Controller
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => $post->created_at->toDateTimeString(),
-        'updated_at' => $post->updated_at->toDateTimeString()
+        'content' => (string) $post->content
       ];
+
+      //dd($this->data);
 
     }
 

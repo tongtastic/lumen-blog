@@ -3,28 +3,9 @@
 use App\Post;
 use Carbon\Carbon;
 use Faker\Factory;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class PostTest extends TestCase
 {
-
-  protected $token;
-
-  use DatabaseTransactions;
-
-  /**
-   * builds token and sets time variable
-   * @method __construct
-   */
-  function __construct() {
-
-    $this->faker = Factory::create();
-
-    $this->token = env('API_TOKEN');
-
-    $this->time = Carbon::now()->toDateTimeString();
-
-  }
 
   /**
    * Generates 5 posts then loops through the controller response checking posts exist in returned JSON
@@ -42,9 +23,7 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => (string) $post->created_at->toDateTimeString(),
-        'updated_at' => (string) $post->updated_at->toDateTimeString()
+        'content' => (string) $post->content
       ];
 
     }
@@ -77,13 +56,12 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => (string) $post->created_at->toDateTimeString(),
-        'updated_at' => (string) $post->updated_at->toDateTimeString()
+        'content' => (string) $post->content
       ]
     ]);
 
   }
+
   /**
    * Generates a post then deletes it, checking id in response matches request
    * @method testDeletePost
@@ -128,17 +106,13 @@ class PostTest extends TestCase
         'id' => (int) 1,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => $this->time,
-        'updated_at' => $this->time
+        'content' => (string) $post->content
       ]
     ])
     ->seeInDatabase('posts', [
       'title' => $post->title,
       'user_id' => $post->user_id,
-      'content' => $post->content,
-      'created_at' => $this->time,
-      'updated_at' => $this->time
+      'content' => $post->content
     ]);
 
   }
@@ -155,8 +129,6 @@ class PostTest extends TestCase
 
     $new_title = $this->faker->sentence;
 
-    $time = Carbon::now()->toDateTimeString();
-
     $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'title' => $new_title
@@ -169,18 +141,14 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $new_title,
-        'content' => (string) $post->content,
-        'created_at' => $update_post->created_at->toDateTimeString(),
-        'updated_at' => $this->time
+        'content' => (string) $post->content
       ]
     ])
     ->seeInDatabase('posts', [
       'id' => $update_post->id,
       'user_id' => $post->user_id,
       'title' => $new_title,
-      'content' => $post->content,
-      'created_at' => $post->created_at->toDateTimeString(),
-      'updated_at' => $this->time
+      'content' => $post->content
     ]);
 
   }
@@ -198,8 +166,6 @@ class PostTest extends TestCase
 
     $new_content = $this->faker->paragraph;
 
-    $time = Carbon::now()->toDateTimeString();
-
     $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'content' => $new_content
@@ -212,18 +178,14 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $post->user_id,
         'title' => (string) $post->title,
-        'content' => (string) $new_content,
-        'created_at' => $update_post->created_at->toDateTimeString(),
-        'updated_at' => $this->time
+        'content' => (string) $new_content
       ]
     ])
     ->seeInDatabase('posts', [
       'id' => $update_post->id,
       'user_id' => $post->user_id,
       'title' => $post->title,
-      'content' => $new_content,
-      'created_at' => $post->created_at->toDateTimeString(),
-      'updated_at' => $this->time
+      'content' => $new_content
     ]);
 
   }
@@ -241,8 +203,6 @@ class PostTest extends TestCase
 
     $new_id = $this->faker->randomNumber;
 
-    $time = Carbon::now()->toDateTimeString();
-
     $this->json('PUT', '/posts/update', [
       'id' => $post->id,
       'user_id' => $new_id
@@ -255,18 +215,14 @@ class PostTest extends TestCase
         'id' => (int) $post->id,
         'user_id' => (int) $new_id,
         'title' => (string) $post->title,
-        'content' => (string) $post->content,
-        'created_at' => $update_post->created_at->toDateTimeString(),
-        'updated_at' => $this->time
+        'content' => (string) $post->content
       ]
     ])
     ->seeInDatabase('posts', [
       'id' => $update_post->id,
       'user_id' => $new_id,
       'title' => $post->title,
-      'content' => $post->content,
-      'created_at' => $post->created_at->toDateTimeString(),
-      'updated_at' => $this->time
+      'content' => $post->content
     ]);
 
   }

@@ -21,6 +21,14 @@ class AuthServiceProvider extends ServiceProvider
 
           $request_token = $request->header('api_token');
 
+          // for PHPunit
+
+          if( !$request_token ) {
+
+            $request_token = $request->server()['API_TOKEN'];
+
+          }
+
           if ( $request_token && $request_token == env('API_TOKEN') ) {
 
               return $request;

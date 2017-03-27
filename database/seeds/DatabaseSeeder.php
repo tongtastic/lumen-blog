@@ -1,7 +1,5 @@
 <?php
 
-use App\Category;
-use App\Post;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
